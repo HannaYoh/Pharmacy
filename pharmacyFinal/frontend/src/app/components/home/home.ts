@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Navbar, Footer],
+  imports: [CommonModule, Navbar, Footer, RouterLink],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
