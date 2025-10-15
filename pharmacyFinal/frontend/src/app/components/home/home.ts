@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { Footer } from '../footer/footer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,4 +11,14 @@ import { Footer } from '../footer/footer';
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
-export class HomeComponent {}
+export class HomeComponent {
+  constructor(private router: Router) {}
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+}

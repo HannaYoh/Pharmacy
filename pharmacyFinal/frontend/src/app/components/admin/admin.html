@@ -1,0 +1,17 @@
+<h2>Admin Dashboard</h2>
+
+<section>
+  <h3>Pending Pharmacy Registrations</h3>
+  <ul>
+    <li *ngFor="let p of pendingPharmacies">
+      {{ p.name }} (Owner: {{ p.owner }})
+      <button (click)="approve(p)">Approve</button>
+      <button (click)="reject(p)">Reject</button>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h3>View Medicine Data</h3>
+  <button (click)="viewMedicines()">View All Medicines</button>
+</section>

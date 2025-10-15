@@ -1,0 +1,14 @@
+<div class="auth-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required />
+    <input type="password" placeholder="Password" name="password" [(ngModel)]="password" required />
+
+    <button type="submit" class="btn-primary">Login</button>
+  </form>
+
+  <p class="switch">
+    Don't have an account?
+    <a (click)="goToRegister()">Register here</a>
+  </p>
+</div>
