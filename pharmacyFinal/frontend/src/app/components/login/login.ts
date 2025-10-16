@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +14,41 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent {
   email = '';
   password = '';
+  loading = false;
+  error = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    alert('Login logic will be implemented later.');
+    this.loading = true;
+    this.error = '';
+
+    // ✅ FIXED: Match backend property names
+    this.authService.login(this.email, this.password).subscribe({
+      next: () => {
+        const user = this.authService.getUser();
+        this.navigateToDashboard(user!);
+      },
+      error: (err) => {
+        console.log('LOGIN ERROR:', err); // ← ADD THIS FOR DEBUG
+        this.error = 'Invalid email or password';
+        this.loading = false;
+      },
+    });
+  }
+
+  private navigateToDashboard(user: User) {
+    this.loading = false;
+    switch (user.role.toLowerCase()) {
+      case 'admin':
+        this.router.navigate(['/admin']);
+        break;
+      case 'pharmacyowner':
+        this.router.navigate(['/pharmacy-owner']);
+        break;
+      default:
+        this.router.navigate(['/customer']);
+    }
   }
 
   goToRegister() {

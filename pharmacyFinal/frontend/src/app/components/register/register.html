@@ -1,19 +1,48 @@
 <div class="auth-container">
   <h2>Create Account</h2>
-  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-    <input type="text" placeholder="Full Name" name="fullName" [(ngModel)]="fullName" required />
-    <input type="email" placeholder="Email" name="email" [(ngModel)]="email" required />
-    <input type="password" placeholder="Password" name="password" [(ngModel)]="password" required />
 
-    <select name="role" [(ngModel)]="role" required>
+  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <input
+      type="text"
+      placeholder="Full Name"
+      name="fullName"
+      [(ngModel)]="fullName"
+      required
+      [disabled]="loading"
+    />
+
+    <input
+      type="email"
+      placeholder="Email"
+      name="email"
+      [(ngModel)]="email"
+      required
+      [disabled]="loading"
+    />
+
+    <input
+      type="password"
+      placeholder="Password"
+      name="password"
+      [(ngModel)]="password"
+      required
+      minlength="6"
+      [disabled]="loading"
+    />
+
+    <select name="role" [(ngModel)]="role" required [disabled]="loading">
       <option value="">Select Role</option>
       <option value="customer">Customer</option>
       <option value="admin">Admin</option>
       <option value="pharmacy-owner">Pharmacy Owner</option>
     </select>
 
-    <button type="submit" class="btn-primary">Register</button>
+    <button type="submit" class="btn-primary" [disabled]="loading">
+      {{ loading ? 'Creating Account...' : 'Register' }}
+    </button>
   </form>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
 
   <p class="switch">
     Already have an account?

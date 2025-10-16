@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-owner-dashboard',
@@ -9,6 +11,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrls: ['./pharmacy-owner.css'],
 })
 export class PharmacyOwner {
+  constructor(private authService: AuthService, private router: Router) {}
   pharmacies = [{ name: 'MyPharma', location: 'Addis Ababa' }];
   medicines = [
     { name: 'Paracetamol', price: 20 },
@@ -25,5 +28,9 @@ export class PharmacyOwner {
 
   deleteMedicine(med: any) {
     this.medicines = this.medicines.filter((m) => m !== med);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
