@@ -5,7 +5,7 @@
   <ul>
     <li *ngFor="let p of pharmacies">{{ p.name }} - {{ p.location }}</li>
   </ul>
-  <button>+ Register New Pharmacy</button>
+  <button routerLink="/pharmacy-owner/register-pharmacy">+ Register New Pharmacy</button>
 </section>
 
 <section>
@@ -17,5 +17,6 @@
       <button (click)="deleteMedicine(med)">Delete</button>
     </li>
   </ul>
-  <button (click)="addMedicine()">+ Add Medicine</button>
+  <button routerLink="/pharmacy-owner/inventory">+ Add Medicine</button>
 </section>
+<router-outlet></router-outlet>

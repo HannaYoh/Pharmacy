@@ -1,0 +1,39 @@
+<div class="container" style="margin: 24px auto; max-width: 720px">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="auth-title">Register Pharmacy</h2>
+      <p class="auth-subtitle">Provide details for admin approval</p>
+      <form (ngSubmit)="submit()">
+        <label>Pharmacy Name</label>
+        <input [(ngModel)]="model.name" name="name" required />
+
+        <label>License Number</label>
+        <input [(ngModel)]="model.licenseNumber" name="licenseNumber" required />
+
+        <label>Address</label>
+        <input [(ngModel)]="model.address" name="address" required />
+
+        <label>Phone</label>
+        <input [(ngModel)]="model.phone" name="phone" />
+
+        <label>Operating Hours</label>
+        <input [(ngModel)]="model.hours" name="hours" placeholder="Mon-Fri 9am - 6pm" />
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+          <div>
+            <label>Latitude</label>
+            <input [(ngModel)]="model.latitude" name="latitude" />
+          </div>
+          <div>
+            <label>Longitude</label>
+            <input [(ngModel)]="model.longitude" name="longitude" />
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top: 8px">
+          <button class="btn primary" type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

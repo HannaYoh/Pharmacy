@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-owner-dashboard',
   standalone: true,
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './pharmacy-owner.html',
   styleUrls: ['./pharmacy-owner.css'],
 })

@@ -5,6 +5,8 @@ import { RegisterComponent } from './components/register/register';
 import { Admin } from './components/admin/admin';
 import { PharmacyOwner } from './components/pharmacy-owner/pharmacy-owner';
 import { Customer } from './components/customer/customer';
+import { PharmacyRegistrationComponent } from './components/pharmacy-registration/pharmacy-registration';
+import { InventoryComponent } from './components/inventory/inventory';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,4 +15,6 @@ export const routes: Routes = [
   { path: 'admin', component: Admin },
   { path: 'pharmacy-owner', component: PharmacyOwner },
   { path: 'customer', component: Customer },
+  { path: 'pharmacy-owner/register-pharmacy', component: PharmacyRegistrationComponent },
+  { path: 'pharmacy-owner/inventory', component: InventoryComponent },
 ];

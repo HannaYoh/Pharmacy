@@ -1,0 +1,116 @@
+:root {
+  --primary: #2e7d32;
+  --primary-hover: #256428;
+  --border: #e0e0e0;
+  --card-bg: #fff;
+  --bg: #f4f6f8;
+  --text: #333;
+}
+
+body {
+  background-color: var(--bg);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+
+.container {
+  margin: 24px auto;
+  max-width: 720px;
+  padding: 16px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+h2.auth-title {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: 1.6rem;
+}
+
+p.auth-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-weight: 600;
+  color: var(--text);
+}
+
+input,
+textarea {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
+  outline: none;
+}
+
+.actions {
+  text-align: right;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn.primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+h3 {
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+h4 {
+  color: #444;
+  margin-top: 12px;
+}
+
+ul,
+div.card-body div {
+  color: var(--text);
+}
+
+div.card-body div.grid-header {
+  font-weight: bold;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
