@@ -1,28 +1,44 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DecimalPipe, NgIf, NgFor } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { NgFor, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [FormsModule, DecimalPipe, NgIf, NgFor, RouterLink],
+  imports: [FormsModule, NgFor, NgIf],
   templateUrl: './inventory.html',
-  styleUrl: './inventory.css',
+  styleUrls: ['./inventory.css'],
 })
 export class InventoryComponent {
-  items: Array<{ name: string; price: number; quantity: number }> = [];
-  newItem = { name: '', price: 0, quantity: 0 };
-  editIndex: number | null = null;
-  editItem: { name: string; price: number; quantity: number } = { name: '', price: 0, quantity: 0 };
+  medicines: any[] = [];
+  newMedicine = {
+    name: '',
+    genericName: '',
+    manufacturer: '',
+    description: '',
+  };
 
-  add(): void {
-    if (!this.newItem.name) return;
-    this.items.push({
-      name: this.newItem.name,
-      price: this.newItem.price,
-      quantity: this.newItem.quantity,
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadMedicines();
+  }
+
+  loadMedicines() {
+    this.http.get<any[]>('http://localhost:5035/api/medicine').subscribe({
+      next: (res) => (this.medicines = res),
+      error: (err) => console.error('Failed to fetch medicines', err),
     });
-    this.newItem = { name: '', price: 0, quantity: 0 };
+  }
+
+  addMedicine() {
+    this.http.post('http://localhost:5035/api/medicine', this.newMedicine).subscribe({
+      next: (res) => {
+        this.medicines.push(res);
+        this.newMedicine = { name: '', genericName: '', manufacturer: '', description: '' };
+      },
+      error: (err) => console.error('Failed to add medicine', err),
+    });
   }
 }
