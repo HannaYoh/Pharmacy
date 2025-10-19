@@ -13,9 +13,13 @@ export interface LoginResponse {
 }
 
 export interface User {
-  email: string;
+  /*  email: string;
   role: string;
-  id: string;
+  id: string; */
+  email: string;
+  fullName: string;
+  role: string;
+  token: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,11 +27,14 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
+  private apiUrl = 'http://localhost:5035/api';
+  private currentUser: User | null = null;
+
   constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage();
   }
 
-  login(email: string, password: string): Observable<LoginResponse> {
+  /*  login(email: string, password: string): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>('http://localhost:5035/api/auth/login', {
         Email: email,
@@ -46,6 +53,21 @@ export class AuthService {
           this.userSubject.next(user);
         })
       );
+  } */
+
+  login(email: string, password: string) {
+    return this.http.post<any>('http://localhost:5035/api/Auth/login', { email, password }).pipe(
+      tap((res) => {
+        const user = {
+          email: res.email,
+          fullName: res.fullName,
+          role: res.role,
+          token: res.token,
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        this.currentUser = user;
+      })
+    );
   }
 
   // ✅ FIXED REGISTER

@@ -19,7 +19,7 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  onLogin() {
+  /*   onLogin() {
     this.loading = true;
     this.error = '';
 
@@ -31,6 +31,35 @@ export class LoginComponent {
       },
       error: (err) => {
         console.log('LOGIN ERROR:', err); // ← ADD THIS FOR DEBUG
+        this.error = 'Invalid email or password';
+        this.loading = false;
+      },
+    });
+  }
+ */
+  onLogin() {
+    this.loading = true;
+    this.error = '';
+
+    this.authService.login(this.email, this.password).subscribe({
+      next: (res) => {
+        // ✅ Use the response directly instead of calling getUser() immediately
+        const user = {
+          email: res.email,
+          fullName: res.fullName,
+          role: res.role,
+          token: res.token,
+        };
+
+        // ✅ Save user to AuthService and localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        this.authService['currentUser'] = user;
+
+        // ✅ Now safe to navigate
+        this.navigateToDashboard(user);
+      },
+      error: (err) => {
+        console.error('LOGIN ERROR:', err);
         this.error = 'Invalid email or password';
         this.loading = false;
       },

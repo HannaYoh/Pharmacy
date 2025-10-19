@@ -20,7 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // JWT
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "ThisIsASecretKeyForDev12345!";
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "ThisIsASuperStrongSecretKeyForPharmacyApi123456789!";
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "PharmacyApi";
 builder.Services.AddAuthentication(options =>
 {
