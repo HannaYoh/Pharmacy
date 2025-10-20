@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'pharmacy-owner/register-pharmacy',
     component: PharmacyRegistrationComponent,
-    canActivate: [AuthGuard],
+    // ,canActivate: [AuthGuard],
   },
-  { path: 'pharmacy-owner/inventory', component: InventoryComponent, canActivate: [AuthGuard] },
+  { path: 'pharmacy-owner/inventory', component: InventoryComponent }, //, canActivate: [AuthGuard] },
 ];

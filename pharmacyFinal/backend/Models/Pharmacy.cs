@@ -18,6 +18,6 @@ namespace PharmacyApi.Models
 
         public bool IsApproved { get; set; } = false;
 
-        public string? OwnerUserId { get; set; }
+        public string? OwnerUserId { get; set; } = "1";
     }
 }

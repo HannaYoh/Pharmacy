@@ -86,7 +86,7 @@ select:focus {
 
 .btn.primary {
   background-color: var(--primary);
-  color: #fff;
+  color: blue;
   transition: background-color 0.2s ease;
 }
 
