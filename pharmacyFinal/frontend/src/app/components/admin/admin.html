@@ -2,12 +2,13 @@
 <button class="btn" (click)="logout()">Logout</button>
 
 <section>
-  <h3>Pending Pharmacy Registrations</h3>
+  <h3>Pending Pharmacy Registrations ({{ pendingPharmacies.length }})</h3>
+  <p *ngIf="pendingPharmacies.length === 0">No pending registrations found.</p>
   <ul>
     <li *ngFor="let p of pendingPharmacies">
-      {{ p.name }} (Owner: {{ p.owner }})
+      {{ p.name }} (License: {{ p.licenseNumber }}) (Owner: {{ p.owner }})
       <button (click)="approve(p)">Approve</button>
-      <button (click)="reject(p)">Reject</button>
+      <button (click)="reject(p)">Deny</button>
     </li>
   </ul>
 </section>

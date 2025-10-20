@@ -19,9 +19,9 @@ export const routes: Routes = [
   { path: 'pharmacy-owner/register-pharmacy', component: PharmacyRegistrationComponent },
   { path: 'pharmacy-owner/inventory', component: InventoryComponent },
  */
-  { path: 'admin', component: Admin, canActivate: [AuthGuard] },
-  { path: 'pharmacy-owner', component: PharmacyOwner, canActivate: [AuthGuard] },
-  { path: 'customer', component: Customer, canActivate: [AuthGuard] },
+  { path: 'admin', component: Admin }, //, canActivate: [AuthGuard] },
+  { path: 'pharmacy-owner', component: PharmacyOwner }, //, canActivate: [AuthGuard] },
+  { path: 'customer', component: Customer }, //, canActivate: [AuthGuard] },
   {
     path: 'pharmacy-owner/register-pharmacy',
     component: PharmacyRegistrationComponent,
