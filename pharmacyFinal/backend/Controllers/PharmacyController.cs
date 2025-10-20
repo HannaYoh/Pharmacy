@@ -7,36 +7,36 @@ using System.Linq; // Needed for .Where() (new)
 
 namespace PharmacyApi.Controllers
 {
-   /*  [Route("api/[controller]")]
-    [ApiController]
-    public class PharmacyController : ControllerBase
-    {
-        private readonly AppDbContext _db;
-        public PharmacyController(AppDbContext db) { _db = db; }
+    /*  [Route("api/[controller]")]
+     [ApiController]
+     public class PharmacyController : ControllerBase
+     {
+         private readonly AppDbContext _db;
+         public PharmacyController(AppDbContext db) { _db = db; }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll() => Ok(await _db.Pharmacies.ToListAsync());
+         [HttpGet]
+         public async Task<IActionResult> GetAll() => Ok(await _db.Pharmacies.ToListAsync());
 
-        [Authorize(Roles = "PharmacyOwner")]
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Pharmacy pharmacy)
-        {
-            _db.Pharmacies.Add(pharmacy);
-            await _db.SaveChangesAsync();
-            return Ok(pharmacy);
-        }
+         [Authorize(Roles = "PharmacyOwner")]
+         [HttpPost]
+         public async Task<IActionResult> Create([FromBody] Pharmacy pharmacy)
+         {
+             _db.Pharmacies.Add(pharmacy);
+             await _db.SaveChangesAsync();
+             return Ok(pharmacy);
+         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("approve/{id}")]
-        public async Task<IActionResult> Approve(int id)
-        {
-            var p = await _db.Pharmacies.FindAsync(id);
-            if (p == null) return NotFound();
-            p.IsApproved = true;
-            await _db.SaveChangesAsync();
-            return Ok(p);
-        }
-    } */
+         [Authorize(Roles = "Admin")]
+         [HttpPost("approve/{id}")]
+         public async Task<IActionResult> Approve(int id)
+         {
+             var p = await _db.Pharmacies.FindAsync(id);
+             if (p == null) return NotFound();
+             p.IsApproved = true;
+             await _db.SaveChangesAsync();
+             return Ok(p);
+         }
+     } */
     [Route("api/[controller]")]
     [ApiController]
     // [Authorize(Roles = "PharmacyOwner")] // Uncomment after Auth is implemented
@@ -74,7 +74,7 @@ namespace PharmacyApi.Controllers
             // Return 201 Created status
             return CreatedAtAction(nameof(Create), new { id = newPharmacy.Id }, newPharmacy);
         }
-        
+
         //new
         [HttpGet("pending")]
         //[Authorize(Roles = "Admin")]
@@ -84,13 +84,13 @@ namespace PharmacyApi.Controllers
             // Note: If you have a User model, you'd want to use .Include() to get the Owner's name.
             var pendingList = await _db.Pharmacies
                 .Where(p => p.IsApproved == false)
-                .Select(p => new 
+                .Select(p => new
                 {
                     p.Id,
                     p.Name,
                     p.LicenseNumber,
                     // MOCKING Owner name until User model and relationships are fully set up
-                    Owner = $"Owner-{p.OwnerUserId}" 
+                    Owner = $"Owner-{p.OwnerUserId}"
                 })
                 .ToListAsync();
 
@@ -116,64 +116,69 @@ namespace PharmacyApi.Controllers
             await _db.SaveChangesAsync();
             return Ok(new { Message = $"Pharmacy ID {id} status updated to {status}", Pharmacy = pharmacy });
         }
-        
+
         //new
         /// <summary>
-/// CUSTOMER SEARCH 1: Find approved pharmacies by name (partial match) from the Pharmacy table.
-/// </summary>
-[HttpGet("search")]
-public async Task<IActionResult> SearchPharmacies([FromQuery] string? name)
-{
-    var query = _db.Pharmacies.AsQueryable();
-
-    // Filter by name if a search term is provided
-    if (!string.IsNullOrEmpty(name))
-    {
-        query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
-    }
-
-    // Only return pharmacies that have been approved by the Admin
-    var results = await query
-        .Where(p => p.IsApproved == true)
-        .Select(p => new
+        /// CUSTOMER SEARCH 1: Find approved pharmacies by name (partial match) from the Pharmacy table.
+        /// </summary>
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchPharmacies([FromQuery] string? name)
         {
-            p.Id,
-            p.Name,
-            p.Address,
-            p.Phone,
-            p.Latitude,
-            p.Longitude
-        })
-        .ToListAsync();
+            var query = _db.Pharmacies.AsQueryable();
 
-    return Ok(results);
-}
+            // Filter by name if a search term is provided
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            }
+
+            // Only return pharmacies that have been approved by the Admin
+            var results = await query
+                .Where(p => p.IsApproved == true)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    p.Address,
+                    p.Phone,
+                    p.Latitude,
+                    p.Longitude
+                })
+                .ToListAsync();
+
+            return Ok(results);
+        }
 
 
-/// <summary>
-/// CUSTOMER SEARCH 2: Find medicines by name (partial match) from the Medicine table.
-/// </summary>
-[HttpGet("search/medicine")]
-public async Task<IActionResult> SearchMedicinesByName([FromQuery] string? medicineName)
-{
-    if (string.IsNullOrEmpty(medicineName))
-    {
-        return BadRequest("Medicine name is required for searching.");
-    }
-
-    // Query the Medicines table directly
-    var results = await _db.Medicines
-        .Where(m => m.Name.ToLower().Contains(medicineName.ToLower()))
-        .Select(m => new 
+        /// <summary>
+        /// CUSTOMER SEARCH 2: Find medicines by name (partial match) from the Medicine table.
+        /// </summary>
+        [HttpGet("search/medicine")]
+        public async Task<IActionResult> SearchMedicinesByName([FromQuery] string? medicineName)
         {
-            m.Id,
-            m.Name,
-            m.Manufacturer,
-            m.Description
-        })
-        .ToListAsync();
+            if (string.IsNullOrEmpty(medicineName))
+            {
+                return BadRequest("Medicine name is required for searching.");
+            }
 
-    return Ok(results);
-}
+            // Query the Medicines table directly
+            var results = await _db.Medicines
+                .Where(m => m.Name.ToLower().Contains(medicineName.ToLower()))
+                .Select(m => new
+                {
+                    m.Id,
+                    m.Name,
+                    m.Manufacturer,
+                    m.Description
+                })
+                .ToListAsync();
+
+            return Ok(results);
+        }
+
+
+       
+        
+
     }
 }
