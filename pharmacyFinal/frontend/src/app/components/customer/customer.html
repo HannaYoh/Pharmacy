@@ -2,13 +2,36 @@
 <button class="btn" (click)="logout()">Logout</button>
 
 <section>
-  <h3>Search Pharmacies</h3>
-  <input placeholder="Enter pharmacy name" />
-  <button (click)="search()">Search</button>
+  <h3>Search Pharmacies (by Name)</h3>
+  <input [(ngModel)]="pharmacySearchTerm" name="pharmacySearch" placeholder="Enter pharmacy name" />
+  <button (click)="searchPharmaciesByName()">Search</button>
+
+  <div *ngIf="pharmacyResults.length > 0" style="margin-top: 15px">
+    <h4>Found Pharmacies:</h4>
+    <ul>
+      <li *ngFor="let p of pharmacyResults">
+        <strong>{{ p.name }}</strong> ({{ p.address }}) - {{ p.phone }}
+      </li>
+    </ul>
+  </div>
 </section>
 
 <section>
-  <h3>Find Medicines by Prescription</h3>
-  <textarea placeholder="Enter prescription details"></textarea>
-  <button (click)="findMedicines()">Find Medicines</button>
+  <h3>Find Medicines (by Name)</h3>
+  <input
+    [(ngModel)]="medicineSearchTerm"
+    name="medicineSearch"
+    placeholder="Enter medicine name (e.g., 'Paracetamol')"
+  />
+  <button (click)="searchMedicinesByName()">Search Medicines</button>
+
+  <div *ngIf="medicineResults.length > 0" style="margin-top: 15px">
+    <h4>Found Medicines in Database:</h4>
+    <ul>
+      <li *ngFor="let m of medicineResults">
+        <strong>{{ m.name }}</strong> ({{ m.manufacturer }})
+        <p style="margin: 0; font-size: 0.9em; color: gray">{{ m.description }}</p>
+      </li>
+    </ul>
+  </div>
 </section>

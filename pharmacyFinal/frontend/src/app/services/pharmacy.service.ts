@@ -14,6 +14,23 @@ export interface PharmacyRegistrationModel {
   // NOTE: If you were to send IsApproved or OwnerUserId, the backend would accept them!
 }
 
+export interface PharmacySearchResult {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+// NEW Interface for Medicine Search Results
+export interface MedicineSearchResult {
+  id: number;
+  name: string;
+  manufacturer?: string;
+  description?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,5 +43,17 @@ export class PharmacyService {
   register(model: PharmacyRegistrationModel): Observable<any> {
     // Send the model data (which acts as the DTO)
     return this.http.post(this.apiUrl, model);
+  }
+
+  // Search pharmacies by name (No change to method name or signature)
+  searchPharmacies(name: string): Observable<PharmacySearchResult[]> {
+    return this.http.get<PharmacySearchResult[]>(`${this.apiUrl}/search?name=${name}`);
+  }
+
+  // MODIFIED: Search for medicines by name
+  searchMedicinesByName(medicineName: string): Observable<MedicineSearchResult[]> {
+    return this.http.get<MedicineSearchResult[]>(
+      `${this.apiUrl}/search/medicine?medicineName=${medicineName}`
+    );
   }
 }

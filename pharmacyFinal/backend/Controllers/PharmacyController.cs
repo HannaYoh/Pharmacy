@@ -104,17 +104,76 @@ namespace PharmacyApi.Controllers
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] bool status)
         {
             var pharmacy = await _db.Pharmacies.FindAsync(id);
-            
+
             if (pharmacy == null) return NotFound("Pharmacy not found.");
-            
+
             // Set the IsApproved status based on the received boolean value
             pharmacy.IsApproved = status;
-            
+
             // Note: If status is false (denial), you might also want to delete the entry 
             // or add a 'IsDenied' field. For simplicity, we just set IsApproved = false/true.
 
             await _db.SaveChangesAsync();
             return Ok(new { Message = $"Pharmacy ID {id} status updated to {status}", Pharmacy = pharmacy });
         }
+        
+        //new
+        /// <summary>
+/// CUSTOMER SEARCH 1: Find approved pharmacies by name (partial match) from the Pharmacy table.
+/// </summary>
+[HttpGet("search")]
+public async Task<IActionResult> SearchPharmacies([FromQuery] string? name)
+{
+    var query = _db.Pharmacies.AsQueryable();
+
+    // Filter by name if a search term is provided
+    if (!string.IsNullOrEmpty(name))
+    {
+        query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+    }
+
+    // Only return pharmacies that have been approved by the Admin
+    var results = await query
+        .Where(p => p.IsApproved == true)
+        .Select(p => new
+        {
+            p.Id,
+            p.Name,
+            p.Address,
+            p.Phone,
+            p.Latitude,
+            p.Longitude
+        })
+        .ToListAsync();
+
+    return Ok(results);
+}
+
+
+/// <summary>
+/// CUSTOMER SEARCH 2: Find medicines by name (partial match) from the Medicine table.
+/// </summary>
+[HttpGet("search/medicine")]
+public async Task<IActionResult> SearchMedicinesByName([FromQuery] string? medicineName)
+{
+    if (string.IsNullOrEmpty(medicineName))
+    {
+        return BadRequest("Medicine name is required for searching.");
+    }
+
+    // Query the Medicines table directly
+    var results = await _db.Medicines
+        .Where(m => m.Name.ToLower().Contains(medicineName.ToLower()))
+        .Select(m => new 
+        {
+            m.Id,
+            m.Name,
+            m.Manufacturer,
+            m.Description
+        })
+        .ToListAsync();
+
+    return Ok(results);
+}
     }
 }
